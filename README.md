@@ -1,6 +1,6 @@
 # WhatsApp Chat Parser
 
-> **MADE WITH AI**
+> **WARNING. FORK MADE FULLY WITH AI.**
 
 The goal of this fork is to store history/backup of multiple chats and to be able to switch between different conversations.
 
