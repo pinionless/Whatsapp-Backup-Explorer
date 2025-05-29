@@ -1,0 +1,10 @@
+services:
+  whatsapp-backup-explorer:
+    container_name: whatsapp-backup-explorer
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./whatsapp-backup-explorer:/usr/share/nginx/html/chats
