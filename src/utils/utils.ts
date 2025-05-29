@@ -76,7 +76,7 @@ function messagesFromFile(file: ExtractedFile, isAnonymous = false) {
   return fileToText(file).then(text => {
     const uniqueIdGenerator = new UniqueIdGenerator();
     const parsed = parseString(text, {
-      parseAttachments: file instanceof JSZip,
+      parseAttachments: true, // Ensure attachments are parsed from text
     }).map(({ author, ...msg }, index) => ({
       ...msg,
       author:

@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState, startTransition } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import styled from 'styled-components';
 
 import Credits from '../Credits/Credits';
 import FilterModeSelector from '../FilterModeSelector/FilterModeSelector';
@@ -14,6 +15,8 @@ import {
   isMenuOpenAtom,
   messagesDateBoundsAtom,
   participantsAtom,
+  availableChatIdentifiersAtom,
+  selectedChatIdentifierAtom,
 } from '../../stores/global';
 import {
   datesAtom,
@@ -21,6 +24,51 @@ import {
   limitsAtom,
 } from '../../stores/filters';
 import { FilterMode } from '../../types';
+
+const ChatLinkList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const ChatLinkItem = styled.li<{ $isActive: boolean }>`
+  padding: 0; // Remove padding if <a> tag inside will have it
+  cursor: default; // No longer directly clickable if <a> is the target
+  background-color: ${props => (props.$isActive ? '#e0e0e0' : 'transparent')};
+  border-bottom: 1px solid #f0f0f0;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: ${props => (props.$isActive ? '#4a4a4a' : 'transparent')};
+    border-bottom-color: #3a3a3a;
+  }
+
+  a {
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: inherit; // Inherit color from parent, or set explicitly
+    &:hover {
+      background-color: #f5f5f5;
+      @media (prefers-color-scheme: dark) {
+        background-color: #333;
+      }
+    }
+  }
+`;
+
+const SidebarSection = styled.div`
+  margin-bottom: 1rem;
+  h3 {
+    font-size: 0.9rem;
+    margin: 0 0 0.5rem 1rem;
+    color: #555;
+    @media (prefers-color-scheme: dark) {
+      color: #ccc;
+    }
+  }
+`;
+
+const CLIENT_ROUTING_PATH_PREFIX_SIDEBAR = "/chat/"; // Links should use the client-side routing prefix
 
 function Sidebar() {
   const [isMenuOpen, setIsMenuOpen] = useAtom(isMenuOpenAtom);
@@ -32,6 +80,8 @@ function Sidebar() {
   const messagesDateBounds = useAtomValue(messagesDateBoundsAtom);
   const participants = useAtomValue(participantsAtom);
   const [activeUser, setActiveUser] = useAtom(activeUserAtom);
+  const availableChats = useAtomValue(availableChatIdentifiersAtom);
+  const [selectedChat, setSelectedChat] = useAtom(selectedChatIdentifierAtom);
 
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const openButtonRef = useRef<HTMLButtonElement>(null);
@@ -129,6 +179,22 @@ function Sidebar() {
                 }
               />
             </S.Field>
+
+            <SidebarSection>
+              <h3>Available Chats</h3>
+              <ChatLinkList>
+                {availableChats.map(chatId => (
+                  <ChatLinkItem
+                    key={chatId}
+                    $isActive={selectedChat === chatId}
+                  >
+                    <a href={`${CLIENT_ROUTING_PATH_PREFIX_SIDEBAR}${encodeURIComponent(chatId)}`}>
+                      {chatId.replace("WhatsApp Chat with ", "")} {/* Display a cleaner name */}
+                    </a>
+                  </ChatLinkItem>
+                ))}
+              </ChatLinkList>
+            </SidebarSection>
           </S.SidebarChildren>
           <Credits />
         </S.SidebarContainer>

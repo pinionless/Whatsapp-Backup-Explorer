@@ -17,7 +17,11 @@ import {
 } from '../../stores/filters';
 import { filterMessagesByDate, getISODateString } from '../../utils/utils';
 
-function MessageViewer() {
+interface MessageViewerProps {
+  mediaBaseUrl?: string;
+}
+
+function MessageViewer({ mediaBaseUrl }: MessageViewerProps) {
   const limits = useAtomValue(limitsAtom);
   const [activeUser, setActiveUser] = useAtom(activeUserAtom);
   const participants = useAtomValue(participantsAtom);
@@ -85,6 +89,7 @@ function MessageViewer() {
               sameAuthorAsPrevious={
                 prevMessage && prevMessage.author === message.author
               }
+              mediaBaseUrl={mediaBaseUrl} // Pass down mediaBaseUrl
             />
           );
         })}

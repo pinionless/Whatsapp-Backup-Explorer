@@ -24,6 +24,7 @@ interface IMessage {
   color: string;
   isActiveUser: boolean;
   sameAuthorAsPrevious: boolean;
+  mediaBaseUrl?: string; // Add mediaBaseUrl prop
 }
 
 function Message({
@@ -31,6 +32,7 @@ function Message({
   color,
   isActiveUser,
   sameAuthorAsPrevious,
+  mediaBaseUrl, // Destructure mediaBaseUrl
 }: IMessage) {
   const isSystem = !message.author;
   const dateTime = message.date.toISOString().slice(0, 19).replace('T', ' ');
@@ -42,9 +44,16 @@ function Message({
   );
 
   if (message.attachment) {
+    let attachmentSrcUrl: string | undefined;
+    if (mediaBaseUrl && message.attachment.fileName) {
+      attachmentSrcUrl = `${mediaBaseUrl}${encodeURIComponent(message.attachment.fileName)}`;
+    }
     messageComponent = (
       <Suspense fallback={`Loading ${message.attachment.fileName}...`}>
-        <Attachment fileName={message.attachment.fileName} />
+        <Attachment 
+          fileName={message.attachment.fileName} 
+          srcUrl={attachmentSrcUrl} // Pass constructed srcUrl
+        />
       </Suspense>
     );
   } else if (pollData !== null) {
