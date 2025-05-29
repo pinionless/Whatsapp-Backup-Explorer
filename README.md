@@ -1,4 +1,4 @@
-# WhatsApp Chat Parser - Local Backup & History Fork
+# WhatsApp Chat Parser
 
 > **MADE WITH AI**
 
