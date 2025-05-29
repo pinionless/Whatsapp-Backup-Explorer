@@ -32,3 +32,17 @@ This fork has been modified from the original with the following key differences
 ---
 
 **Note on "Media can be places with the txt file":** The original phrasing was kept for strict content adherence, though "placed" might be more conventional. The meaning is clear: media files should reside in the same directory as their corresponding chat text file.
+
+## Run with docker compose
+```
+services:
+  whatsapp-backup-explorer:
+    container_name: whatsapp-backup-explorer
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./whatsapp-backup-explorer:/usr/share/nginx/html/chats
+```
