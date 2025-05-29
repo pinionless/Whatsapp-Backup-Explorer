@@ -1,47 +1,34 @@
-# WhatsApp Chat Parser Website
+# WhatsApp Chat Parser - Local Backup & History Fork
 
-> Example application of the npm package [whatsapp-chat-parser](https://github.com/Pustur/whatsapp-chat-parser)
+> **MADE WITH AI**
 
-This website allows you to upload a WhatsApp chat log and view its contents.
-You can upload a `txt` directly or a `zip` file containing the exported chat.  
-In case you export a `zip` file with the option `Attach Media`, you will be able to see images, videos and audio files directly in the website. Try it out by downloading the [example chat](https://github.com/Pustur/whatsapp-chat-parser-website/blob/master/src/assets/whatsapp-chat-parser-example.zip)!
+The goal of this fork is to store history/backup of multiple chats and to be able to switch between different conversations.
 
-The app runs locally and no logs are sent or stored anywhere.
+---
 
-The website is available at [whatsapp-chat-parser.netlify.app](https://whatsapp-chat-parser.netlify.app/)
+## Original Project
 
-## How to run locally
+Please support the original project creator:
+[Pustur/whatsapp-chat-parser-website](https://github.com/Pustur/whatsapp-chat-parser-website)
 
-1. Clone the git repo
-2. Install [Node.js](https://nodejs.org/en/) if you don't have it already
-3. Open a terminal in the root of the project and run `npm install` to install the dependencies (optionally with the `--production` flag to avoid installing development dependencies)
-4. Run `npm start` to start a development server (while in this mode you can change the code and see the results immediately)
-5. Run `npm run build` to build the compiled bundle that you'll find in the `build/` folder
+---
 
-Any local server will do to run the built files.  
-It's also possible to download them directly from the [releases page](https://github.com/Pustur/whatsapp-chat-parser-website/releases).
+## Key Changes & Features of This Fork
 
-## How to export WhatsApp chats
+This fork has been modified from the original with the following key differences and features:
 
-- [Android](https://faq.whatsapp.com/android/chats/how-to-save-your-chat-history)
-- [iPhone](https://faq.whatsapp.com/iphone/chats/how-to-back-up-to-icloud/)
+*   Removed upload functionality.
+*   Checks for WhatsApp Backup folders under the following directory:
+    ` /usr/share/nginx/html/chats`
+*   Each chat needs to be placed in its own dedicated folder within the above directory, structured as follows:
+    ` /WhatsApp Chat with (name)/WhatsApp Chat with (name).txt`
+*   Media files (images, videos, etc.) can be placed alongside the `.txt` file within its respective chat folder.
+    *(Original phrasing: "Media can be places with the txt file")*
+*   A pull-out sidebar is available, listing all detected chats for easy navigation.
+*   Different chats can be accessed directly via URL, using the following pattern:
+    ` localhost:4000/chat/(name)`
+    (Where `(name)` corresponds to the chat folder name, e.g., `John Doe` if the folder is `WhatsApp Chat with John Doe`)
 
-## Technologies used
+---
 
-- Language: [TypeScript](https://www.typescriptlang.org/)
-- Libraries:
-  - [React](https://reactjs.org/) (with [Jotai](https://jotai.org/))
-  - [JSZip](https://stuk.github.io/jszip/)
-  - [whatsapp-chat-parser](https://github.com/Pustur/whatsapp-chat-parser)
-- CSS: [Styled Components](https://www.styled-components.com/)
-- Code formatting: [Prettier](https://prettier.io/)
-- Linting: [ESLint](https://eslint.org/) (with [Airbnb rules](https://www.npmjs.com/package/eslint-config-airbnb))
-- Bundler: [Vite](https://vitejs.dev/)
-
-## Changelog
-
-[CHANGELOG](CHANGELOG.md)
-
-## License
-
-[MIT](LICENSE)
+**Note on "Media can be places with the txt file":** The original phrasing was kept for strict content adherence, though "placed" might be more conventional. The meaning is clear: media files should reside in the same directory as their corresponding chat text file.
